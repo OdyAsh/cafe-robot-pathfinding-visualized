@@ -1,4 +1,5 @@
 from tkinter import Tk, StringVar
+# this file contains the global GUI elements globally used by all the classes
 
 # logic of the gloabal variables part is to avoid opening two windows parallely 
 # (as from main import GUI line in Spot.py runs the class variables a second time)
