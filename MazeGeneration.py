@@ -31,12 +31,12 @@ class MazeGeneration:
         # if start and end spots are not indicated - put start and end randomly
         if not Spot.start_point:
             current = grid[random.randint(0, globals.ROWS - 1)][random.randint(0, globals.ROWS - 1)]
-            if current.end == False:
+            if current.isEnd == False:
                 current.make_start()
         
         if not Spot.end_point:
             current = grid[random.randint(0, globals.ROWS - 1)][random.randint(0, globals.ROWS - 1)]
-            if current.start == False:
+            if current.isStart == False:
                 current.make_end()
                 
         start = grid[Spot.start_point[1]][Spot.start_point[0]]
@@ -78,12 +78,12 @@ class MazeGeneration:
         # put start in the outer ring and end in the inner ring and remove them from rings
         random.choice(rings[0]).make_start()
         for spot in rings[0]:
-            if spot.start == True:
+            if spot.isStart == True:
                 rings[0].remove(spot)
         
         random.choice(rings[-1]).make_end()
         for spot in rings[-1]:
-            if spot.end == True:
+            if spot.isEnd == True:
                 rings[-1].remove(spot)
 
         # make odd rings into walls
@@ -264,7 +264,7 @@ class MazeGeneration:
                 spot.h = 0
                 spot.f = float('inf')
                 spot.parent = None
-                spot.start = False
-                spot.end = False
+                spot.isStart = False
+                spot.isEnd = False
                 spot.barrier = False
                 spot.enable()

@@ -8,7 +8,7 @@ class Spot():
     end_point = None
     
     __slots__ = ['button','row', 'col', 'width', 'neighbors', 'g', 'h', 'f',  
-                 'parent', 'start', 'end', 'barrier', 'clicked', 'total_rows']
+                 'parent', 'isStart', 'isEnd', 'barrier', 'clicked', 'total_rows']
     
     def __init__(self, row, col, width, offset, total_rows):
         
@@ -29,21 +29,21 @@ class Spot():
         self.h = 0
         self.f = float('inf')
         self.parent = None
-        self.start = False
-        self.end = False
+        self.isStart = False
+        self.isEnd = False
         self.barrier = False
         self.clicked = False
         self.total_rows = total_rows
     
     def make_start(self):
         self.button.config(bg = "DarkOrange2")
-        self.start = True
+        self.isStart = True
         self.clicked = True
         Spot.start_point = (self.col, self.row)
         
     def make_end(self):
         self.button.config(bg = "lime green")
-        self.end = True
+        self.isEnd = True
         self.clicked = True
         Spot.end_point = (self.col, self.row)
         
@@ -87,11 +87,11 @@ class Spot():
                 self.make_barrier()
         else:
             self.reset()
-            if self.start == True:   
-                self.start = False
+            if self.isStart == True:   
+                self.isStart = False
                 Spot.start_point = None
-            elif self.end == True:
-                self.end = False
+            elif self.isEnd == True:
+                self.isEnd = False
                 Spot.end_point = None
             else :
                 self.barrier = False

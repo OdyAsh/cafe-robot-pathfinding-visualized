@@ -26,6 +26,11 @@
 # https://www.youtube.com/watch?v=Xthh4SEMA2o&ab_channel=DavisMT
 #########################################################################
 
+# To-Do:
+# 1. make 4 buttons: Robot Loc, Obstacle Locs, Door Locs, Staff Locs
+# 2. Change "Spot" code to accommodate for change in 1.
+# 3. Change reconstruct_path to accommodate for 2.
+
 from Gui import Gui
 import globals
 

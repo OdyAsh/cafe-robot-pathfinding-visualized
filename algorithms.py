@@ -14,7 +14,7 @@ class Algorithms:
 
     def reconstruct_path(spot, tickTime):
         current = spot
-        while current.start == False:
+        while current.isStart == False:
             parent = current.parent
             parent.make_path()
             globals.root.update_idletasks()
