@@ -1,0 +1,19 @@
+approaches: representations: spaces, grid, graphs, etc
+
+plans == assumptions: tray is on top of it, so it occupies the same cell
+
+previous labs: spaces representation
+
+b) notations == operations
+operation: delete, add, pre-condition
+examples: pseudocode (say for example
+
+strategies: algorithm chosen (A*, etc)
+before that: compare between all algorithms 
+
+suitability: 4ar7 el justification and why this algorithm works 
+
+references: g4g, youtube, labs, lectures
+
+
+
