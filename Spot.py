@@ -12,7 +12,7 @@ class Spot():
     
     def __init__(self, row, col, width, offset, total_rows):
         
-        self.button = Button(globals.canvas,
+        self.button = Button(globals.grid_canvas,
          command = lambda a=row, b=col: self.click(a, b),
          bg='white', bd=2, relief=GROOVE
         )

@@ -228,7 +228,7 @@ class MazeGeneration:
                 spot.disable() # disable buttons in the grid for running algorithm
         
         # disable UI frame for running algorithm
-        for child in globals.UI_frame.winfo_children():
+        for child in globals.left_side_bar.winfo_children():
             child.configure(state='disable')
         
         # choose algorithm
@@ -244,7 +244,7 @@ class MazeGeneration:
             for spot in row:
                 spot.enable()
         
-        for child in globals.UI_frame.winfo_children():
+        for child in globals.left_side_bar.winfo_children():
             child.configure(state='normal') # enable frame
 
     def scale_action(event):
