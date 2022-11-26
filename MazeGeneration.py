@@ -23,7 +23,7 @@ class MazeGeneration:
                 wall = grid[current.row + 1][current.col]
         # break wall
         wall.reset()
-        wall.barrier = False
+        wall.obstacle = False
 
     # Put random walls in the grid
     def random_walls(grid):
@@ -47,10 +47,10 @@ class MazeGeneration:
             for spot in row:
                 if spot != start and spot != end:
                     spot.reset()
-                    spot.barrier = False
+                    spot.obstacle = False
                     spot.clicked = False
                     if random.randint(0, 100) < globals.wallsScale.get():
-                        spot.make_barrier()
+                        spot.make_obstacle()
         
         # draw updated grid       
         globals.root.update_idletasks()
@@ -102,7 +102,7 @@ class MazeGeneration:
                     ring.remove(item)
             
             for spot in ring:
-                spot.make_barrier()
+                spot.make_obstacle()
             
             if len(ring) == 0:
                 rings.remove(ring)
@@ -111,7 +111,7 @@ class MazeGeneration:
         for ring in rings[1::2]:
             for item in random.sample(ring, 2):
                 item.reset()
-                item.barrier = False
+                item.obstacle = False
         
         # update neighbors based on current maze
         for row in grid:
@@ -128,7 +128,7 @@ class MazeGeneration:
                     tmp.append(spot)
             if len(tmp) > 0:
                 single_wall = random.choice(tmp)
-                single_wall.make_barrier()        
+                single_wall.make_obstacle()        
         
         # draw updated grid       
         globals.root.update_idletasks()
@@ -148,7 +148,7 @@ class MazeGeneration:
                 if spot in to_visit:
                     spot.make_to_visit()
                 else:
-                    spot.make_barrier()
+                    spot.make_obstacle()
         
         to_visit[0].make_start()
         to_visit[-1].make_end()
@@ -266,5 +266,5 @@ class MazeGeneration:
                 spot.parent = None
                 spot.isStart = False
                 spot.isEnd = False
-                spot.barrier = False
+                spot.obstacle = False
                 spot.enable()

@@ -34,9 +34,7 @@
     # 2.3 make sure everything works (color of door does same job as empty cell)
     # 2.4 when choosing red in combobox (i.e., staff): 
         # 2.4.1 make list of pairs: 
-            # 1st elem. is pair of (r,c) of clicked spot:
-                # but first check, if click# key has a value (in purple dictionary)
-                # then consider (r,c) location of purple spot
+            # 1st elem. is pair of (r,c) of clicked spot
             # 2nd elem. is click # since red value is chosen in combobox
         # 2.4.2 try to add numbers from 2nd elem. on GUI
         # 2.4.3 try to add text box below right combobox with this structure:

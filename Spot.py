@@ -8,12 +8,12 @@ class Spot():
     end_point = None
     
     __slots__ = ['button','row', 'col', 'width', 'neighbors', 'g', 'h', 'f',  
-                 'parent', 'isStart', 'isEnd', 'barrier', 'clicked', 'total_rows']
+                 'parent', 'isStart', 'isEnd', 'obstacle', 'clicked', 'total_rows']
     
     def __init__(self, row, col, width, offset, total_rows):
         
         self.button = Button(globals.grid_canvas,
-         command = lambda a=row, b=col: self.click(a, b),
+         command = self.click,
          bg='white', bd=2, relief=GROOVE
         )
         
@@ -31,25 +31,25 @@ class Spot():
         self.parent = None
         self.isStart = False
         self.isEnd = False
-        self.barrier = False
+        self.obstacle = False
         self.clicked = False
         self.total_rows = total_rows
     
     def make_start(self):
-        self.button.config(bg = "DarkOrange2")
+        self.button.config(bg = "lime green")
         self.isStart = True
         self.clicked = True
         Spot.start_point = (self.col, self.row)
         
     def make_end(self):
-        self.button.config(bg = "lime green")
+        self.button.config(bg = "Red")
         self.isEnd = True
         self.clicked = True
         Spot.end_point = (self.col, self.row)
         
-    def make_barrier(self):
+    def make_obstacle(self):
         self.button.config(bg = "black")
-        self.barrier = True
+        self.obstacle = True
         self.clicked = True
         
     def reset(self):
@@ -77,14 +77,14 @@ class Spot():
     def enable(self):
         self.button.config(state=NORMAL)
     
-    def click(self, row, col):
+    def click(self):
         if self.clicked == False:
             if not Spot.start_point:   
                 self.make_start()
             elif not Spot.end_point:
                 self.make_end()
             else :
-                self.make_barrier()
+                self.make_obstacle()
         else:
             self.reset()
             if self.isStart == True:   
@@ -94,23 +94,23 @@ class Spot():
                 self.isEnd = False
                 Spot.end_point = None
             else :
-                self.barrier = False
+                self.obstacle = False
     
     def update_neighbors(self, grid):
         self.neighbors = []
 
-        # check neighbors a row down - if spot not outside grid and not barrier
-        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].barrier:
+        # check neighbors a row down - if spot not outside grid and not obstacle
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].obstacle:
             self.neighbors.append(grid[self.row + 1][self.col]) # add spot to the neighbors
 
-        # check neighbors a row up - if spot not outside grid and not barrier
-        if self.row > 0 and not grid[self.row - 1][self.col].barrier:
+        # check neighbors a row up - if spot not outside grid and not obstacle
+        if self.row > 0 and not grid[self.row - 1][self.col].obstacle:
             self.neighbors.append(grid[self.row - 1][self.col]) # add spot to the neighbors
 
-        # check neighbors a col right - if spot not outside grid and not barrier
-        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].barrier:
+        # check neighbors a col right - if spot not outside grid and not obstacle
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].obstacle:
             self.neighbors.append(grid[self.row][self.col + 1]) # add spot to the neighbors
 
-        # check neighbors a col left - if spot not outside grid and not barrier
-        if self.col > 0 and not grid[self.row][self.col - 1].barrier:
+        # check neighbors a col left - if spot not outside grid and not obstacle
+        if self.col > 0 and not grid[self.row][self.col - 1].obstacle:
             self.neighbors.append(grid[self.row][self.col - 1]) # add spot to the neighbors

@@ -28,7 +28,7 @@ def init():
     wallsScale = None
     algMenu = None
     speedScale = None
-    # even though StringVar variables aren't used globally, setting them in the Gui class will not allow a placeholder value to exist in the combobox as python will garabage collect it..
+    # even though most StringVar variables aren't used globally, setting them in the Gui class will not allow a placeholder value to exist in the combobox as python will garabage collect it..
     # source: https://stackoverflow.com/questions/6876518/set-a-default-value-for-a-ttk-combobox#:~:text=The%20problem%20is%20that%20the%20instance%20of%20StringVar%20is%20getting%20garbage%2Dcollected.%20This%20is%20because%20it%27s%20a%20local%20variable%20due%20to%20how%20you%20wrote%20your%20code.
     selected_bld = StringVar()
     selected_alg = StringVar()

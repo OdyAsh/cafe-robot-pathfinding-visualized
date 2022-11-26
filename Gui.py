@@ -59,6 +59,9 @@ class Gui:
         spotTypeMenu.grid(row=0, column=0, padx=10, pady=(10, 5))
         spotTypeMenu.current(0)
 
+        Button(spot_type_frame, text='test', command=Gui.testPrint, font = ("Helvetica", 9),
+            bg='white').grid(row=1, column=0, padx=10, pady=(10, 5))
+
     def instructions():
         messagebox.showinfo("Instructions", "1. Create a maze by clicking on the grid or choose\n"
                                             "    one of the functions from the drop-down menu\n"
@@ -81,3 +84,5 @@ class Gui:
                 grid[i].append(spot)
         return grid
   
+    def testPrint():
+        print(globals.selected_spot_type.get())
