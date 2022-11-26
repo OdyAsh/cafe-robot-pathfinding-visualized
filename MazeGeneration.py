@@ -23,7 +23,7 @@ class MazeGeneration:
                 wall = grid[current.row + 1][current.col]
         # break wall
         wall.reset()
-        wall.obstacle = False
+        wall.isObstacle = False
 
     # Put random walls in the grid
     def random_walls(grid):
@@ -47,7 +47,7 @@ class MazeGeneration:
             for spot in row:
                 if spot != start and spot != end:
                     spot.reset()
-                    spot.obstacle = False
+                    spot.isObstacle = False
                     spot.clicked = False
                     if random.randint(0, 100) < globals.wallsScale.get():
                         spot.make_obstacle()
@@ -111,7 +111,7 @@ class MazeGeneration:
         for ring in rings[1::2]:
             for item in random.sample(ring, 2):
                 item.reset()
-                item.obstacle = False
+                item.isObstacle = False
         
         # update neighbors based on current maze
         for row in grid:
@@ -266,5 +266,5 @@ class MazeGeneration:
                 spot.parent = None
                 spot.isStart = False
                 spot.isEnd = False
-                spot.obstacle = False
+                spot.isObstacle = False
                 spot.enable()

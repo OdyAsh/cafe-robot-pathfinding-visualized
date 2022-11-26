@@ -33,4 +33,12 @@ def init():
     selected_bld = StringVar()
     selected_alg = StringVar()
     selected_spot_type = StringVar()
-    
+
+def isSpotType(s1, s2=None):
+    if not s2:
+        global selected_spot_type
+        s2 = selected_spot_type.get()
+    return (s1.lower() in s2.lower())
+
+def rgbtohex(r,g,b):
+    return f'#{r:02x}{g:02x}{b:02x}'

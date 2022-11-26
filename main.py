@@ -43,6 +43,9 @@
             # a staff member, if not, write in text box: this is not a staff member!
 # 3. change reconstruct_path to accommodate for 2.
 
+# code to change:
+# 1. end_point to end_points list
+
 from tkinterReloader import run_with_reloader
 import globals
 
