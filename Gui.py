@@ -40,7 +40,7 @@ class Gui:
         globals.speedScale = Scale(globals.left_side_bar, from_=0.05, to=0.5, digits=2, resolution=0.05, 
                         orient=HORIZONTAL, label='Speed', font = globals.font, length=180)
         globals.speedScale.grid(row=4, column=0, padx=5, pady=(5, 5), sticky=W)
-        Button(globals.left_side_bar, text='Start Search', command=Algorithms.StartAlgorithm, font = ("Helvetica", 14),
+        Button(globals.left_side_bar, text='Start Search', command=Algorithms.startAlgorithms, font = ("Helvetica", 14),
             bg='light salmon').grid(row=5, column=0, padx=5, pady=(10, 10))
 
         Button(globals.left_side_bar, text='Reset', command=MazeGeneration.Reset, font = ("Helvetica", 14),
@@ -58,9 +58,6 @@ class Gui:
                             values=['Robot (Green)', 'Obstacle (Black)', 'Door (Turqoise)', 'Staff Member (Red)'], font = globals.font)
         spotTypeMenu.grid(row=0, column=0, padx=10, pady=(10, 5))
         spotTypeMenu.current(0)
-
-        Button(spot_type_frame, text='test', command=Gui.testPrint, font = ("Helvetica", 9),
-            bg='white').grid(row=1, column=0, padx=10, pady=(10, 5))
 
     def instructions():
         messagebox.showinfo("Instructions", "1. Create a maze by clicking on the grid or choose\n"
@@ -84,5 +81,3 @@ class Gui:
                 grid[i].append(spot)
         return grid
   
-    def testPrint():
-        print(globals.selected_spot_type.get())

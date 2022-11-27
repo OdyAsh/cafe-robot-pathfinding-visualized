@@ -38,13 +38,14 @@
             # 2nd elem. is click # since red value is chosen in combobox
         # 2.4.2 try to add numbers from 2nd elem. on GUI
         # 2.4.3 try to add text box below right combobox with this structure:
-            # "#clickNum, StaffName"
+            # "#clickNum. StaffName"
             # possible failure scenario: make global list to check if name is actually
             # a staff member, if not, write in text box: this is not a staff member!
 # 3. change reconstruct_path to accommodate for 2.
+    # 3.1 don't forget to create one final path to starting point
 
 # code to change:
-# 1. end_point to end_points list
+# 1. end_point to end_points list in MazeGeneration
 
 from tkinterReloader import run_with_reloader
 import globals

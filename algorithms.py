@@ -22,10 +22,8 @@ class Algorithms:
             current = parent
 
     # A-star algorithm
-    def a_star(grid, tickTime):
+    def a_star(grid, tickTime, start, end):
         count = 0
-        start = grid[Spot.start_point[1]][Spot.start_point[0]]
-        end = grid[Spot.end_point[1]][Spot.end_point[0]]
         
         # create open_set
         open_set = PriorityQueue()
@@ -49,7 +47,7 @@ class Algorithms:
             # if score the same, then whatever was inserted first - PriorityQueue
             # popping [2] - spot itself
             current = open_set.get()[2]
-            # syncronise with dict
+            # synchronise with dict
             open_set_hash.remove(current)
             
             # found end?
@@ -71,7 +69,7 @@ class Algorithms:
                 # calculate g_score for every neighbor
                 temp_g_score = current.g + 1
                 
-                # if new path through this neighbor better
+                # if new path through this neighbor is better
                 if temp_g_score < neighbor.g:
                     
                     # update g_score for this spot and keep track of new best path
@@ -102,10 +100,7 @@ class Algorithms:
         return False
 
     # Breadth-First algorithm
-    def breadth_first(grid, tickTime):
-        
-        start = grid[Spot.start_point[1]][Spot.start_point[0]]
-        end = grid[Spot.end_point[1]][Spot.end_point[0]]
+    def breadth_first(grid, tickTime, start, end):
         
         open_set = deque()
         
@@ -145,17 +140,38 @@ class Algorithms:
 
         return False
 
-    # start pathfinding
-    def StartAlgorithm():
-
+    def startAlgorithms():
+        # validation checks
         if not globals.grid:
             messagebox.showinfo("No grid found", "Initialize grid")
             return
-
-        if not Spot.start_point or not Spot.end_point: 
+            
+        if not Spot.start_point or len(Spot.end_points) == 0: 
             messagebox.showinfo("No start/end", "Place starting and ending points")
             return
         
+        # Running the algorithm for all staff members
+        for key in sorted(Spot.end_points): # sorted() returns list of ordered keys (so values are not included)
+            sRow, sCol = Spot.start_point[0], Spot.start_point[1]
+            eRow, eCol = Spot.end_points[key][0], Spot.end_points[key][1]
+            curStart = globals.grid[sRow][sCol]
+            curEnd = globals.grid[eRow][eCol]
+            curEnd.make_end(asObstacle=False)
+
+            Algorithms.startAlgorithm(curStart, curEnd)
+            time.sleep(0.5)
+
+            curStart.make_end(asObstacle=True)
+            curEnd.make_start()
+            Spot.start_point = (curEnd.row, curEnd.col)
+
+
+
+
+    
+    # start pathfinding
+    def startAlgorithm(curStart, curEnd):
+
         # update neighbors based on current maze
         for row in globals.grid:
             for spot in row:
@@ -169,15 +185,15 @@ class Algorithms:
                     spot.reset()
                 spot.disable() # disable buttons in the grid for running algorithm
         
-        # disable UI frame for running algorithm
+        # disable UI frame while running algorithm
         for child in globals.left_side_bar.winfo_children():
             child.configure(state='disable')
         
         # choose algorithm
         if globals.algMenu.get() == 'A-star Algorithm':
-            Algorithms.a_star(globals.grid, globals.speedScale.get())
+            Algorithms.a_star(globals.grid, globals.speedScale.get(), curStart, curEnd)
         elif globals.algMenu.get() == 'Breadth-First Algorithm':
-            Algorithms.breadth_first(globals.grid, globals.speedScale.get())     
+            Algorithms.breadth_first(globals.grid, globals.speedScale.get(), curStart, curEnd)     
             
         # enable buttons in the grid
         for row in globals.grid:

@@ -33,30 +33,43 @@ class Spot():
         self.isStart = False
         self.isEnd = False
         self.isObstacle = False
+        self.isDoor = False
         self.clicked = False
         self.total_rows = total_rows
     
     def make_start(self):
         self.button.config(bg = "lime green")
         self.isStart = True
+        self.isEnd = self.isObstacle = self.isDoor = False
         self.clicked = True
-        Spot.start_point = (self.col, self.row)
+        Spot.start_point = (self.row, self.col)
         
-    def make_end(self):
-        self.button.config(bg = globals.rgbtohex(max(100, abs(255-Spot.staffId*14)),0,0))
-        self.isEnd = True
+    def make_end(self, asObstacle = True):
+        if (len(Spot.end_points) == 0 or not asObstacle):
+            self.button.config(bg = globals.rgbtohex(255,0,0))
+            self.isEnd = True
+            self.isObstacle = False
+        else:
+            self.button.config(bg = globals.rgbtohex(max(100, abs(255-Spot.staffId*14)),0,0))
+            self.isEnd = False
+            self.isObstacle = True
+            
+
+        self.isStart = self.isDoor = False
         self.clicked = True
-        Spot.end_points[Spot.staffId] = (self.col, self.row)
+        Spot.end_points[Spot.staffId] = (self.row, self.col)
         Spot.staffId += 1
         
     def make_obstacle(self):
         self.button.config(bg = "black")
         self.isObstacle = True
+        self.isStart = self.isEnd = self.isDoor = False
         self.clicked = True
 
     def make_door(self):
         self.button.config(bg = globals.rgbtohex(64, 224, 208)) # Turqoise Colour
         self.isDoor = True
+        self.isStart = self.isEnd = self.isObstacle = False
         self.clicked = True
         
     def reset(self):
@@ -67,8 +80,8 @@ class Spot():
             Spot.start_point = None
         elif self.isEnd:
             self.isEnd = False
-            for key, valuePair in Spot.end_points:
-                if self.row == valuePair[0] and self.col == valuePair[1]:
+            for key, rowCol in Spot.end_points.items():
+                if self.row == rowCol[0] and self.col == rowCol[1]:
                     Spot.end_points.pop(key)
         elif self.isObstacle:
             self.isObstacle = False

@@ -255,7 +255,8 @@ class MazeGeneration:
 
     def Reset():
         Spot.start_point = None
-        Spot.end_point = None
+        Spot.end_points = {}
+        Spot.staffId = 1
         for row in globals.grid:
             for spot in row:
                 spot.reset()
