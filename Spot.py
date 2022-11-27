@@ -9,7 +9,7 @@ class Spot():
     staffId = 1
 
     __slots__ = ['button','row', 'col', 'width', 'neighbors', 'g', 'h', 'f',  
-                 'parent', 'isStart', 'isEnd', 'isObstacle', 'isDoor', 'clicked', 'total_rows']
+                 'parent', 'isStart', 'isEnd', 'isObstacle', 'isDoor', 'isPath', 'clicked', 'total_rows']
     
     def __init__(self, row, col, width, offset, total_rows):
         
@@ -34,13 +34,14 @@ class Spot():
         self.isEnd = False
         self.isObstacle = False
         self.isDoor = False
+        self.isPath = False
         self.clicked = False
         self.total_rows = total_rows
     
     def make_start(self):
         self.button.config(bg = "lime green")
         self.isStart = True
-        self.isEnd = self.isObstacle = self.isDoor = False
+        self.isEnd = self.isObstacle = False # don't change self.isDoor, bec. if the spot was actually a door, then we want its colour to re-appear (using traverse_a_step()) after the robot passes by it
         self.clicked = True
         Spot.start_point = (self.row, self.col)
         
@@ -53,12 +54,24 @@ class Spot():
             self.button.config(bg = globals.rgbtohex(max(100, abs(255-Spot.staffId*14)),0,0))
             self.isEnd = False
             self.isObstacle = True
-            
-
         self.isStart = self.isDoor = False
         self.clicked = True
         Spot.end_points[Spot.staffId] = (self.row, self.col)
         Spot.staffId += 1
+
+    def traverse_a_step(self, isStartOfPath, isFirstPath):
+        if self.isDoor: # if spot was a door, then leave it as a closed door after robot walks by it
+            self.make_door()
+            return
+        self.isEnd = False
+        if isStartOfPath: # set spot attributes based on if robot was at the initial location or staff location
+            self.isObstacle = (not isFirstPath)
+            self.button.config(bg = "gold" if isFirstPath else globals.rgbtohex(234,138,0)) # Dark Orange if the spot that the robot was in is related to a staff member
+        else: # otherwise, deals with spot as a walkable path
+            self.isObstacle = False
+            self.button.config(bg = "gold") # gold if the location that the robot left was its starting location
+            
+            
         
     def make_obstacle(self):
         self.button.config(bg = "black")
@@ -74,22 +87,25 @@ class Spot():
         
     def reset(self):
         self.button.config(bg = "white")
-        self.clicked = False
+        self.clicked = self.parent = self.isObstacle = self.isDoor = self.isPath = False
         if self.isStart:   
             self.isStart = False
             Spot.start_point = None
-        elif self.isEnd:
+        if self.isEnd:
             self.isEnd = False
             for key, rowCol in Spot.end_points.items():
                 if self.row == rowCol[0] and self.col == rowCol[1]:
                     Spot.end_points.pop(key)
-        elif self.isObstacle:
-            self.isObstacle = False
-        elif self.isDoor:
-            self.isDoor = False
         
     def make_path(self):
-        self.button.config(bg = "gold")
+        self.isPath = True
+        if self.isDoor: # don't change the color if the spot is a door
+            return 
+        if self.isEnd: # if the current spot is an end spot, then make its color dark orange to indicate that the robot will traverse to it  
+            self.button.config(bg = globals.rgbtohex(234,138,0))
+            self.isEnd = False
+        else: # otherwise, turn the current spot's color to gold, indicating that the robot will eventually traverse it
+            self.button.config(bg = "gold")
         
     def make_to_visit(self):
         self.button.config(bg = "pink")
@@ -98,10 +114,18 @@ class Spot():
         self.button.config(bg = "SteelBlue1")
         
     def make_open(self):
-        self.button.config(bg = "cornflower blue")
-        
+        if not (self.isPath or self.isDoor) : # color the spot if it is not traversed by the robot and spot is not a door
+            self.button.config(bg = "cornflower blue")
+    
+    def open_door(self):
+        self.button.config(bg = "white")
+
+    def close_door(self):
+        self.button.config(bg = globals.rgbtohex(64, 224, 208)) # Turqoise Colour
+
     def make_closed(self):
-        self.button.config(bg = "LightSkyBlue2")
+        if not (self.isPath or self.isDoor): # color the spot if it is not traversed by the robot and spot is not a door
+            self.button.config(bg = "LightSkyBlue2")
         
     def disable(self):
         self.button.config(state=DISABLED)

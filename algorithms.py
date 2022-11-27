@@ -8,18 +8,40 @@ import globals
 
 class Algorithms:
 
+    paths = []
+    curPathOfWalking = 0
     # define heuristic function - Manhatten distance
     def h(a, b):
         return abs(a.row - b.row) + abs(a.col - b.col)
 
     def reconstruct_path(spot, tickTime):
+        curPath = []
         current = spot
+        current.make_path() # will make spot of current (which is staff location) dark orange
+        curPath.append(current)
         while current.isStart == False:
             parent = current.parent
             parent.make_path()
             globals.root.update_idletasks()
             time.sleep(tickTime)
             current = parent
+            curPath.append(current)
+        Algorithms.paths.append(curPath[::-1]) # appending the reverse path (i.e., from start to end) to list of paths
+        Algorithms.traverse_path(tickTime)
+        Algorithms.curPathOfWalking += 1
+    
+    def traverse_path(tickTime):
+        curPath = Algorithms.paths[Algorithms.curPathOfWalking]
+        for i in range(1, len(curPath)):
+            if curPath[i].isDoor:
+                time.sleep(1)
+                curPath[i].open_door() # simulates opening of door by turning color from turqoise to cornflower blue
+                globals.root.update_idletasks()
+                time.sleep(1) # open the door in one second
+            curPath[i-1].traverse_a_step(isStartOfPath = (i == 1), isFirstPath = (Algorithms.curPathOfWalking == 0)) # marking the spot as finished with dark orange color if True (if the spot was a loc. of staff) or yellow if False (if it was the initial starting point)
+            curPath[i].make_start()
+            globals.root.update_idletasks()
+            time.sleep(tickTime)
 
     # A-star algorithm
     def a_star(grid, tickTime, start, end):
@@ -53,10 +75,6 @@ class Algorithms:
             # found end?
             if current == end:
                 Algorithms.reconstruct_path(end, tickTime)
-                
-                # draw end and start again
-                end.make_end()
-                start.make_start()
                 
                 # enable UI frame
                 for child in globals.left_side_bar.winfo_children():
@@ -114,9 +132,6 @@ class Algorithms:
             if current == end:
                 Algorithms.reconstruct_path(end, tickTime)
                 
-                # draw end and start again
-                end.make_end()
-                start.make_start()
                 return
             
             # if not end - consider all neighbors of current spot to choose next step
@@ -150,6 +165,7 @@ class Algorithms:
             messagebox.showinfo("No start/end", "Place starting and ending points")
             return
         
+        Spot.end_points[100] = (Spot.start_point[0], Spot.start_point[1]) # add one final end point; the robot's initial starting position (noting that "100" was put as upper limit, since there're unlikely more than 99 staff members who want to order coffee at the same time)
         # Running the algorithm for all staff members
         for key in sorted(Spot.end_points): # sorted() returns list of ordered keys (so values are not included)
             sRow, sCol = Spot.start_point[0], Spot.start_point[1]
@@ -159,11 +175,7 @@ class Algorithms:
             curEnd.make_end(asObstacle=False)
 
             Algorithms.startAlgorithm(curStart, curEnd)
-            time.sleep(0.5)
-
-            curStart.make_end(asObstacle=True)
-            curEnd.make_start()
-            Spot.start_point = (curEnd.row, curEnd.col)
+            time.sleep(0.5) # Gap between each algorithm run
 
 
 

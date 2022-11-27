@@ -59,7 +59,7 @@ def run_with_reloader(root, *hotkeys):
             # and here: https://stackoverflow.com/questions/136097/classmethod-vs-staticmethod-in-python
             Gui.ui() 
             # show instructions when the Gui appears
-            Gui.instructions()
+            # Gui.instructions() # un-comment this if you want instructions to appear everytime you start up the application
             # run loop 
             root.mainloop()
         else:

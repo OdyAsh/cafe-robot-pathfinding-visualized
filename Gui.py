@@ -1,4 +1,4 @@
-from tkinter import Frame, Canvas, StringVar, Button, messagebox, ttk, Scale, HORIZONTAL, W
+from tkinter import Frame, Canvas, StringVar, Button, messagebox, ttk, Scale, HORIZONTAL, W, Label, Text
 from functools import partial
 
 import globals
@@ -49,15 +49,26 @@ class Gui:
         Button(globals.left_side_bar, text='Instructions', command=Gui.instructions, font = ("Helvetica", 9),
             bg='white').grid(row=7, column=0, padx=5, pady=(10, 10))
 
-        # spot_type_frame: right column that has options to change spot type to robot, obstactle, door, n-th staff member
-        spot_type_frame = Frame(globals.root, width=600, height=200, bg='black')
-        spot_type_frame.grid(row=0, column=2, padx=(0,10), pady=5)
+        # right_frame: right column that has options to change spot type to robot, obstactle, door, n-th staff member, and allows for entry of staff members' names who ordered coffee
+        right_frame = Frame(globals.root, width=600, height=200, bg='black')
+        right_frame.grid(row=0, column=2, padx=(0,10), pady=5)
 
-        # UI elements for spot_type_frame
-        spotTypeMenu = ttk.Combobox(spot_type_frame, textvariable=globals.selected_spot_type, 
+        # UI elements for right_frame
+        spotTypeMenu = ttk.Combobox(right_frame, textvariable=globals.selected_spot_type, 
                             values=['Robot (Green)', 'Obstacle (Black)', 'Door (Turqoise)', 'Staff Member (Red)'], font = globals.font)
         spotTypeMenu.grid(row=0, column=0, padx=10, pady=(10, 5))
         spotTypeMenu.current(0)
+
+        Label(right_frame, text="Staff's Orders").grid(row=1, column=0, padx=10, pady=(30, 5))
+        globals.txtBox = Text(right_frame, height=15, width=18, bg='light cyan')
+        globals.txtBox.grid(row=2, column=0, padx=10, pady=(0, 5))
+        globals.txtBox.bind('<KeyRelease>', Gui.getStaffNamesText) # calls the getStaffNamesText function whenever a key is pressed (and released)
+        globals.txtBox.focus()
+        
+    def getStaffNamesText(event):
+        globals.staffNamesText.set(globals.txtBox.get("1.0", "end-1c")) # '1.0': 1st line in text box, 0th character, end: last character in textbox (\n), '-1c': ommit the last character (which is \n)
+        print(globals.staffNamesText.get())
+        return globals.staffNamesText.get()
 
     def instructions():
         messagebox.showinfo("Instructions", "1. Create a maze by clicking on the grid or choose\n"

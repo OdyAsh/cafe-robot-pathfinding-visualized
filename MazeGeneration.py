@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 import globals
 from Spot import Spot
+from Algorithms import Algorithms
 
 class MazeGeneration:
     def break_wall(current, new, grid):
@@ -34,13 +35,15 @@ class MazeGeneration:
             if current.isEnd == False:
                 current.make_start()
         
-        if not Spot.end_point:
+        if len(Spot.end_points) == 0:
             current = grid[random.randint(0, globals.ROWS - 1)][random.randint(0, globals.ROWS - 1)]
             if current.isStart == False:
                 current.make_end()
                 
-        start = grid[Spot.start_point[1]][Spot.start_point[0]]
-        end = grid[Spot.end_point[1]][Spot.end_point[0]]
+        start = grid[Spot.start_point[0]][Spot.start_point[1]]
+        for key in sorted(Spot.end_points): # sorted() sorts the dictionary and returns keys only 
+            end = grid[Spot.end_points[key][0]][Spot.end_points[key][1]]
+            break
         
         # put walls randomly
         for row in grid:
@@ -152,8 +155,11 @@ class MazeGeneration:
         
         to_visit[0].make_start()
         to_visit[-1].make_end()
-        start = grid[Spot.start_point[1]][Spot.start_point[0]]
-        end = grid[Spot.end_point[1]][Spot.end_point[0]]
+
+        start = grid[Spot.start_point[0]][Spot.start_point[1]]
+        for key in sorted(Spot.end_points):
+            end = grid[Spot.end_points[key][0]][Spot.end_points[key][1]]
+            break
         
         # draw updated grid with new open_set        
         globals.root.update_idletasks()
@@ -257,6 +263,8 @@ class MazeGeneration:
         Spot.start_point = None
         Spot.end_points = {}
         Spot.staffId = 1
+        Algorithms.paths = []
+        Algorithms.curPathOfWalking = 0
         for row in globals.grid:
             for spot in row:
                 spot.reset()
@@ -264,8 +272,4 @@ class MazeGeneration:
                 spot.g = float('inf') 
                 spot.h = 0
                 spot.f = float('inf')
-                spot.parent = None
-                spot.isStart = False
-                spot.isEnd = False
-                spot.isObstacle = False
                 spot.enable()
