@@ -24,7 +24,7 @@ class Gui:
         # UI elements for left_frame
         
         globals.bldMenu = ttk.Combobox(globals.left_frame, textvariable=globals.selected_bld, 
-                            values=['Random walls', 'Circular maze', 'Carved out maze', 'No solution'], font = globals.font)
+                            values=['Random walls'], font = globals.font)
         globals.bldMenu.grid(row=0, column=0, padx=5, pady=(10, 5))
         globals.bldMenu.current(0)
         globals.bldMenu.bind("<<ComboboxSelected>>", MazeGeneration.scale_action)
