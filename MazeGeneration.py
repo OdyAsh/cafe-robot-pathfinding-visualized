@@ -1,69 +1,132 @@
 import random
 import time
-from tkinter import messagebox
+from tkinter import messagebox, END
 
 import globals
 from Spot import Spot
 from Algorithms import Algorithms
 
 class MazeGeneration:
-    def break_wall(current, new, grid):
-        if current.row == new.row:
-            if current.col > new.col:
-                # wall to the left from current
-                wall = grid[current.row][current.col - 1]
-            else:
-                # wall to the right
-                wall = grid[current.row][current.col + 1]
-        else:
-            if current.row > new.row:
-                # wall above
-                wall = grid[current.row - 1][current.col]
-            else:
-                # wall below
-                wall = grid[current.row + 1][current.col]
-        # break wall
-        wall.reset()
-        wall.isObstacle = False
 
+    # Build maze based on chosen option
+    def build_maze(grid):
+
+        if globals.bldMenu.get() == 'Staff floor scenario':
+            MazeGeneration.staff_floor()
+        elif globals.bldMenu.get() == 'Invalid member scenario':
+            MazeGeneration.inv_mem()
+        elif globals.bldMenu.get() == 'No solution scenario':
+            MazeGeneration.no_sol()
+        elif globals.bldMenu.get() == "A+ scenario":
+            MazeGeneration.a_plus()
+        elif globals.bldMenu.get() == 'Random walls':
+            MazeGeneration.random_walls(grid)
+
+    def staff_floor():
+        pass
+
+    def inv_mem():
+        pass
+
+    def no_sol():
+        pass
+        
+    def a_plus():
+        pass
+
+        
+
+    def scale_action(event):
+        if globals.bldMenu.get() == 'Random walls':
+            globals.wallsScale.grid() # shows wall density scale
+        else:
+            globals.wallsScale.grid_remove() # hides wall density scale
+    
     # Put random walls in the grid
     def random_walls(grid):
         
         # if start and end spots are not indicated - put start and end randomly
         if not Spot.start_point:
             current = grid[random.randint(0, globals.ROWS - 1)][random.randint(0, globals.ROWS - 1)]
-            if current.isEnd == False:
-                current.make_start()
+            current.make_start()
         
         if len(Spot.end_points) == 0:
             current = grid[random.randint(0, globals.ROWS - 1)][random.randint(0, globals.ROWS - 1)]
-            if current.isStart == False:
-                current.make_end()
-                
-        start = grid[Spot.start_point[0]][Spot.start_point[1]]
-        for key in sorted(Spot.end_points): # sorted() sorts the dictionary and returns keys only 
-            end = grid[Spot.end_points[key][0]][Spot.end_points[key][1]]
-            break
+            current.make_end(userClicked = True)
         
         # put walls randomly
         for row in grid:
             for spot in row:
-                if spot != start and spot != end:
-                    spot.reset()
-                    spot.isObstacle = False
-                    spot.clicked = False
-                    if random.randint(0, 100) < globals.wallsScale.get():
-                        spot.make_obstacle()
-        
+                if spot.button['bg'] not in ['white', 'black']: # don't change any spots that are assigned with any value except obstacles (e.g., robot, staff, door)
+                    continue
+                spot.reset()
+                spot.isObstacle = False
+                spot.clicked = False
+                if random.randint(0, 100) < globals.wallsScale.get():
+                    spot.make_obstacle()
+                
         # draw updated grid       
         globals.root.update_idletasks()
+
+    def Reset():
+        Spot.start_point = None
+        Spot.end_points = {}
+        Spot.staffId = 1
+        Algorithms.paths = []
+        Algorithms.curPathOfWalking = 0
+        globals.txtBox.delete("1.0", END)        
+        for row in globals.grid:
+            for spot in row:
+                spot.reset()
+                spot.neighbors = []
+                spot.g = float('inf') 
+                spot.h = 0
+                spot.f = float('inf')
+                spot.enable()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def circ_maze(grid, rows):
 
         # Reset all
         MazeGeneration.Reset()
 
-        # breake into rings
+        # break into rings
         rings = []
         for n in range(rows // 2 + 1):
             set1 = set()
@@ -223,53 +286,22 @@ class MazeGeneration:
         globals.root.update_idletasks()
         time.sleep(tickTime)
         
-    # Build maze based on chosen option
-    def build_maze(grid):
-        if not grid: 
-            messagebox.showinfo("No grid", "Please initialize grid" )
-            return
 
-        for row in grid:
-            for spot in row:
-                spot.disable() # disable buttons in the grid for running algorithm
-        
-        # disable UI frame for running algorithm
-        for child in globals.left_side_bar.winfo_children():
-            child.configure(state='disable')
-        
-        # choose algorithm
-        if globals.bldMenu.get() == 'Random walls':
-            MazeGeneration.random_walls(grid)
-        elif globals.bldMenu.get() == 'Circular maze':
-            MazeGeneration.circ_maze(grid, globals.ROWS) 
-        elif globals.bldMenu.get() == 'Carved out maze':
-            MazeGeneration.carve_out(grid, globals.ROWS, globals.speedScale.get())
-            
-        # enable buttons in the grid
-        for row in grid:
-            for spot in row:
-                spot.enable()
-        
-        for child in globals.left_side_bar.winfo_children():
-            child.configure(state='normal') # enable frame
-
-    def scale_action(event):
-        if globals.bldMenu.get() == 'Random walls':
-            globals.wallsScale.configure(state='normal')
+    def break_wall(current, new, grid):
+        if current.row == new.row:
+            if current.col > new.col:
+                # wall to the left from current
+                wall = grid[current.row][current.col - 1]
+            else:
+                # wall to the right
+                wall = grid[current.row][current.col + 1]
         else:
-            globals.wallsScale.configure(state='disable')
-
-    def Reset():
-        Spot.start_point = None
-        Spot.end_points = {}
-        Spot.staffId = 1
-        Algorithms.paths = []
-        Algorithms.curPathOfWalking = 0
-        for row in globals.grid:
-            for spot in row:
-                spot.reset()
-                spot.neighbors = []
-                spot.g = float('inf') 
-                spot.h = 0
-                spot.f = float('inf')
-                spot.enable()
+            if current.row > new.row:
+                # wall above
+                wall = grid[current.row - 1][current.col]
+            else:
+                # wall below
+                wall = grid[current.row + 1][current.col]
+        # break wall
+        wall.reset()
+        wall.isObstacle = False

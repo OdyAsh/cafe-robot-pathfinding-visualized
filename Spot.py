@@ -45,7 +45,7 @@ class Spot():
         self.clicked = True
         Spot.start_point = (self.row, self.col)
         
-    def make_end(self, asObstacle = True):
+    def make_end(self, asObstacle = True, userClicked = False):
         if (len(Spot.end_points) == 0 or not asObstacle):
             self.button.config(bg = globals.rgbtohex(255,0,0))
             self.isEnd = True
@@ -56,20 +56,33 @@ class Spot():
             self.isObstacle = True
         self.isStart = self.isDoor = False
         self.clicked = True
-        Spot.end_points[Spot.staffId] = (self.row, self.col)
-        Spot.staffId += 1
+
+        if userClicked:
+            Spot.end_points[Spot.staffId] = (self.row, self.col)
+            Spot.staffId += 1
+
+        if Spot.end_points.get(100) and self.row == Spot.end_points[100][0] and self.col == Spot.end_points[100][1]: # overriding previously set colors if the spot is the initial starting point of the robot
+            self.button.config(bg = globals.rgbtohex(0,128,0)) # dark green
+            return
+
+        # add staff's id to the corresponding spot's button
+        for key, rc in Spot.end_points.items():
+            if self.row == rc[0] and self.col == rc[1]:
+                self.button.config(text=f'{key}', fg='white')
+
+              
 
     def traverse_a_step(self, isStartOfPath, isFirstPath):
         if self.isDoor: # if spot was a door, then leave it as a closed door after robot walks by it
             self.make_door()
             return
-        self.isEnd = False
+        self.isEnd = self.isStart = False
         if isStartOfPath: # set spot attributes based on if robot was at the initial location or staff location
             self.isObstacle = (not isFirstPath)
-            self.button.config(bg = "gold" if isFirstPath else globals.rgbtohex(234,138,0)) # Dark Orange if the spot that the robot was in is related to a staff member
+            self.button.config(bg = globals.rgbtohex(0,128,0) if isFirstPath else globals.rgbtohex(150,0,0)) # Dark Red if the spot that the robot was in is related to a staff member, dark green if this was initial location of the robot
         else: # otherwise, deals with spot as a walkable path
             self.isObstacle = False
-            self.button.config(bg = "gold") # gold if the location that the robot left was its starting location
+            self.button.config(bg = "gold" if self.button['bg'] != globals.rgbtohex(0,128,0) else globals.rgbtohex(0,128,0)) # gold if the location that the robot left was any location other than its starting location
             
             
         
@@ -86,7 +99,7 @@ class Spot():
         self.clicked = True
         
     def reset(self):
-        self.button.config(bg = "white")
+        self.button.config(bg = "white", text='', fg='black')
         self.clicked = self.parent = self.isObstacle = self.isDoor = self.isPath = False
         if self.isStart:   
             self.isStart = False
@@ -99,10 +112,10 @@ class Spot():
         
     def make_path(self):
         self.isPath = True
-        if self.isDoor: # don't change the color if the spot is a door
+        if self.isDoor or self.button['bg'] == globals.rgbtohex(0,128,0): # don't change the color if the spot is a door or the initial starting point of the robot
             return 
-        if self.isEnd: # if the current spot is an end spot, then make its color dark orange to indicate that the robot will traverse to it  
-            self.button.config(bg = globals.rgbtohex(234,138,0))
+        if self.isEnd:
+            self.button.config(bg = globals.rgbtohex(150,0,0)) # dark red
             self.isEnd = False
         else: # otherwise, turn the current spot's color to gold, indicating that the robot will eventually traverse it
             self.button.config(bg = "gold")
@@ -140,7 +153,7 @@ class Spot():
         if globals.isSpotType('Robot') and not Spot.start_point:   
             self.make_start()
         elif globals.isSpotType('Staff'):
-            self.make_end()
+            self.make_end(userClicked = True)
         elif globals.isSpotType('Obstacle'):
             self.make_obstacle()
         elif globals.isSpotType('Door'):

@@ -7,8 +7,8 @@ from tkinter import Tk, StringVar
 
 def init(): 
     global root, font, selected_alg, \
-        selected_bld, WIDTH, ROWS, grid, left_side_bar, grid_canvas, bldMenu, \
-        wallsScale, algMenu, speedScale, selected_spot_type, staffNamesText, txtBox
+        selected_bld, WIDTH, ROWS, grid, left_frame, grid_canvas, bldMenu, \
+        wallsScale, algMenu, speedScale, selected_spot_type, staffNamesText, txtBox, storedStaffNames
     
     # initialize main window
     root = Tk()
@@ -22,7 +22,7 @@ def init():
     ROWS = 25
     grid = []
     # Store variables as attributes
-    left_side_bar = None
+    left_frame = None
     grid_canvas = None
     bldMenu = None
     wallsScale = None
@@ -36,6 +36,14 @@ def init():
     selected_spot_type = StringVar()
     staffNamesText = StringVar()
 
+    storedStaffNames = ['Dr. Gerard', 'TA Toka', 'TA Fares', \
+                        'TA Shehab', 'TA Amira', 'TA Ahmed Sorour', \
+                        'TA Dina', 'TA Enjy', 'TA Abdelrahman', \
+                        'TA Randa', 'TA Rana', 'TA Nada', \
+                        'TA Nadine', 'TA Aliaa', 'TA Fatma', \
+                        'TA Noura', 'TA Omar Kamal', 'TA Abdelmajid', \
+                        'Dr. Nahla', 'Dr. Andreas Pester', 'Dr. Ahmed Salah', 'Dr. Walid Hussien']
+
 def isSpotType(s1, s2=None):
     if not s2:
         global selected_spot_type
@@ -44,3 +52,12 @@ def isSpotType(s1, s2=None):
 
 def rgbtohex(r,g,b):
     return f'#{r:02x}{g:02x}{b:02x}'
+
+def validateName(name):
+    for staffName in storedStaffNames:
+        if name.lower() in staffName.lower():
+            return True
+    return False
+
+def getTickTime():
+    return speedScale.get()

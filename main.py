@@ -49,7 +49,7 @@
 
 from tkinterReloader import run_with_reloader
 import globals
-
+from Gui import Gui
 if __name__ == "__main__":
     globals.init()
     run_with_reloader(globals.root, "<Control-R>", "<Control-r>")
