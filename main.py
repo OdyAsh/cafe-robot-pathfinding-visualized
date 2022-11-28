@@ -3,53 +3,18 @@
 # Used tkinter
 # Python 3.10.5
 # Ashraf Haress 
-# 20/11/2022
+# 20/11/2022 (The code in the rest of the files was reviewed by the TAs on 27/11/2022)
 ########################################################################
-# Main Resource:
-# @DariaSVasileva: Pathfinding_Algorithm_Visualizer_tkinter
-# https://github.com/DariaSVasileva/Pathfinding_Algorithm_Visualizer_tkinter
-# 
-# Which is based on these resources:
-# 
-# @Tech With Tim: Python A* Path Finding Tutorial
-# https://www.youtube.com/watch?v=JtiK0DOeI4A&ab_channel=TechWithTim
-#
-# @Daksh3K: Astar-Pathfinding-Algorithm-Visualization
-# https://github.com/Daksh3K/Astar-Pathfinding-Algorithm-Visualization
-#
-# @nas-programmer: path-finding
-# https://github.com/nas-programmer/path-finding
-# https://www.youtube.com/watch?v=LF1h-8bEjP0&ab_channel=codeNULL
-#
-# @Davis MT: Python maze generator program
-# https://github.com/tonypdavis/PythonMazeGenerator
-# https://www.youtube.com/watch?v=Xthh4SEMA2o&ab_channel=DavisMT
-#########################################################################
 
-# To-Do:
-# 1. ✓ make 4 buttons: Robot Loc, Obstacle Locs, Door Locs, Staff Locs
-# 2. ✓ change "Spot" code to accommodate for change in 1.
-    # ✓ 2.1 instead of relying on #clicks, make insertion of colors be based on combobox on the right
-    # ✓ 2.2 change colors based on chosen combobox value
-    # ✓ 2.3 make sure everything works (color of door does same job as empty cell)
-    # ✓ 2.4 when choosing red in combobox (i.e., staff): 
-        # ✓ 2.4.1 make list of pairs: 
-            # ✓ 1st elem. is pair of (r,c) of clicked spot
-            # ✓ 2nd elem. is click # since red value is chosen in combobox
-        # ✓ 2.4.2 try to add numbers from 2nd elem. on GUI
-        # ✓ 2.4.3 try to add text box below right combobox with this structure:
-            # "#clickNum. StaffName"
-            # possible failure scenario: make global list to check if name is actually
-            # a staff member, if not, write in text box: this is not a staff member!
-# ✓ 3. change reconstruct_path to accommodate for 2.
-    # ✓ 3.1 don't forget to create one final path to starting point
-
-# code to change:
-# ✓ end_point to end_points list in MazeGeneration
-
-from tkinterReloader import run_with_reloader
 import globals
 from Gui import Gui
 if __name__ == "__main__":
     globals.init()
-    run_with_reloader(globals.root, "<Control-R>", "<Control-r>")
+    # accessing ui() as a class function instead of an instance (object) method.. 
+    # example (using attributes) is here: https://stackoverflow.com/questions/4152850/is-it-possible-not-to-use-self-in-a-class
+    # and here: https://stackoverflow.com/questions/136097/classmethod-vs-staticmethod-in-python
+    Gui.ui() 
+    # show instructions when the Gui appears
+    # Gui.instructions() # un-comment this if you want instructions to appear everytime you start up the application
+    # run loop 
+    globals.root.mainloop()

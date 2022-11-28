@@ -25,7 +25,7 @@ class Algorithms:
         while current.isStart == False:
             parent = current.parent
             parent.make_path()
-            globals.root.update_idletasks()
+            globals.updateGui()
             time.sleep(globals.getTickTime())
             current = parent
             curPath.append(current)
@@ -37,11 +37,11 @@ class Algorithms:
             if curPath[i].isDoor:
                 time.sleep(1)
                 curPath[i].open_door() # simulates opening of door by turning color from turqoise to cornflower blue
-                globals.root.update_idletasks()
+                globals.updateGui()
                 time.sleep(1) # open the door in one second
             curPath[i-1].traverse_a_step(isStartOfPath = (i == 1), isFirstPath = (Algorithms.curPathOfWalking == 0)) # marking the spot as finished with dark red if True (if the spot was a loc. of staff) or dark green if False (if it was the initial starting point)
             curPath[i].button.config(bg = "lime green") # simulate robot moving to current spot
-            globals.root.update_idletasks()
+            globals.updateGui()
             time.sleep(globals.getTickTime())
         curPath[-1].make_start() # make the last spot in the current path the starting position for the next path
 
@@ -79,10 +79,6 @@ class Algorithms:
                 Algorithms.reconstruct_path(end)
                 Algorithms.traverse_path()
                 Algorithms.curPathOfWalking += 1
-
-                # enable UI frame
-                for child in globals.left_frame.winfo_children():
-                    child.configure(state='normal')
                 return True
             
             # if not end - consider all neighbors of current spot to choose next step
@@ -110,7 +106,7 @@ class Algorithms:
                         neighbor.make_open()
             
             # draw updated grid with new open_set        
-            globals.root.update_idletasks()
+            globals.updateGui()
             time.sleep(globals.getTickTime())
             
             if current != start:
@@ -149,7 +145,7 @@ class Algorithms:
                     neighbor.make_open()
                     
             # draw updated grid with new open_set        
-            globals.root.update_idletasks()
+            globals.updateGui()
             time.sleep(globals.getTickTime())
             
             if current != start:
@@ -224,7 +220,7 @@ class Algorithms:
             for spot in row:
                 if not spot.clicked:
                     spot.button.config(bg = 'white')
-        globals.root.update_idletasks()
+        globals.updateGui()
         time.sleep(0.1)
         
         # Finally, draw the entire path walked by the robot
@@ -232,18 +228,18 @@ class Algorithms:
             for spot in path:
                 if spot.button['bg'] == 'white':
                     spot.button.config(bg = 'gold')
-                globals.root.update_idletasks()
+                globals.updateGui()
                 time.sleep(globals.getTickTime())
         
         time.sleep(0.2)
         Algorithms.paths[0][0].button.config(text=':]', fg='black') # Algorithms' Finale
-        globals.root.update_idletasks()
+        globals.updateGui()
 
     
     # start pathfinding
     def startAlgorithm(curStart, curEnd):
 
-        # update neighbors based on current maze
+        # update neighbors based on current preset
         for row in globals.grid:
             for spot in row:
                 spot.neighbors = []

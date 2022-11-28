@@ -1,15 +1,30 @@
-from tkinter import Button, messagebox, GROOVE, DISABLED, NORMAL
+from tkinter import Button, GROOVE, DISABLED, NORMAL
 import globals
 
 # define class - spot
 class Spot():
     
+    def exportData(self):
+        dicWithoutButton = self.__dict__.copy()
+        btn = dicWithoutButton.pop('button')
+        btnConfigs = {'bg': btn['bg'], 'fg': btn['fg'], 'text': btn['text']}
+        classData = Spot.start_point, Spot.end_points, Spot.staffId
+        return (dicWithoutButton, btnConfigs, classData)
+
+    def importData(self, pklContent):
+        pklContent[0]['button'] = self.button
+        self.__dict__ = pklContent[0]
+        self.button.config(**pklContent[1])
+        Spot.start_point, Spot.end_points, Spot.staffId = pklContent[2]
+
+
     start_point = None
     end_points = {}
     staffId = 1
 
-    __slots__ = ['button','row', 'col', 'width', 'neighbors', 'g', 'h', 'f',  
-                 'parent', 'isStart', 'isEnd', 'isObstacle', 'isDoor', 'isPath', 'clicked', 'total_rows']
+    # this is used for efficiency, but because we possibly want to export spots (to a preset), we need __dict__, which won't be created if we create __slots__
+    #__slots__ = ['button','row', 'col', 'width', 'neighbors', 'g', 'h', 'f',  
+    #             'parent', 'isStart', 'isEnd', 'isObstacle', 'isDoor', 'isPath', 'clicked', 'total_rows']
     
     def __init__(self, row, col, width, offset, total_rows):
         
