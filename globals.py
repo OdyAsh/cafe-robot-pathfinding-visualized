@@ -52,8 +52,12 @@ def isSpotType(s1, s2=None):
         s2 = selected_spot_type.get()
     return (s1.lower() in s2.lower())
 
-def rgbtohex(r,g,b):
+def rgbtohex(r,g,b): # returns hex string from (r,g,b)
     return f'#{r:02x}{g:02x}{b:02x}'
+
+def hextorgb(hex): # returns (r,g,b) from hex string
+    h = hex.lstrip("#")
+    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
 def validateName(name):
     for staffName in storedStaffNames:

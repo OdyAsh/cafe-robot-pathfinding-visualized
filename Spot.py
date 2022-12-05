@@ -163,7 +163,34 @@ class Spot():
     
     def click(self):
         if self.clicked: # spot was already clicked, so reset it to original state
+            hexString = self.button['bg']
+            if hexString[0] != "#": # then it is a color like "lime green" or any other name, so it is not an end point and we should just reset it
+                self.reset()
+            r,g,b = globals.hextorgb(hexString)
+            if g == 0 and b == 0: # then it is a shade of red, so it is an end point
+                print('entered')
+                removedId = -1
+                for id, rowCol in Spot.end_points.items():
+                    if self.row == rowCol[0] and self.col == rowCol[1]:
+                        removedId = id
+                        break
+                if removedId == -1:
+                    self.reset()
+                    return
+                ids = list(Spot.end_points.keys())
+                for curId in ids:
+                    curPoint = globals.grid[Spot.end_points[curId][0]][Spot.end_points[curId][1]]
+                    idToBeChanged = int(curPoint.button['text'])
+                    if idToBeChanged <= removedId:
+                        continue
+                    if idToBeChanged == 2: # then we should make its "isEnd" variable to True, since this will now have id "1" and is therefore the next end in the algorithm
+                        curPoint.make_end(asObstacle=False)
+                    curPoint.button.config(text=f'{idToBeChanged-1}', fg='white')
+                    Spot.end_points[idToBeChanged-1] = Spot.end_points[idToBeChanged]
+                    Spot.end_points.pop(idToBeChanged)
+                    Spot.staffId -= 1
             self.reset()
+            print(Spot.end_points)
             return
         if globals.isSpotType('Robot') and not Spot.start_point:   
             self.make_start()
