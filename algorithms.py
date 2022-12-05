@@ -255,9 +255,4 @@ class Algorithms:
         if globals.algMenu.get() == 'A-star Algorithm':
             Algorithms.a_star(globals.grid, curStart, curEnd)
         elif globals.algMenu.get() == 'Breadth-First Algorithm':
-            Algorithms.breadth_first(globals.grid, curStart, curEnd)     
-            
-        # enable buttons in the grid
-        for row in globals.grid:
-            for spot in row:
-                spot.enable()
+            Algorithms.breadth_first(globals.grid, curStart, curEnd)  

@@ -12,12 +12,6 @@ class Presets:
     # Build preset based on chosen option
     def build_preset(grid):
         chosenPreset = globals.bldMenu.get()
-        if chosenPreset == 'Invalid member scenario':
-            Presets.inv_mem()
-        elif chosenPreset == 'No solution scenario':
-            Presets.no_sol()
-        elif chosenPreset == "A+ scenario":
-            Presets.a_plus()
         if chosenPreset == 'Random walls':
             Presets.random_walls(grid)
         else:
@@ -94,6 +88,5 @@ class Presets:
                 spot.g = float('inf') 
                 spot.h = 0
                 spot.f = float('inf')
-                spot.enable()
 
 

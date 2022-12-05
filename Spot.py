@@ -4,6 +4,10 @@ import globals
 # define class - spot
 class Spot():
     
+    start_point = None
+    end_points = {}
+    staffId = 1
+
     def exportData(self):
         dicWithoutButton = self.__dict__.copy()
         btn = dicWithoutButton.pop('button')
@@ -16,11 +20,6 @@ class Spot():
         self.__dict__ = pklContent[0]
         self.button.config(**pklContent[1])
         Spot.start_point, Spot.end_points, Spot.staffId = pklContent[2]
-
-
-    start_point = None
-    end_points = {}
-    staffId = 1
 
     # this is used for efficiency, but because we possibly want to export spots (to a preset), we need __dict__, which won't be created if we create __slots__
     #__slots__ = ['button','row', 'col', 'width', 'neighbors', 'g', 'h', 'f',  
