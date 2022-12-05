@@ -7,7 +7,7 @@ from tkinter import Tk, StringVar
 
 def init(): 
     global root, font, selected_alg, \
-        selected_bld, WIDTH, ROWS, grid, left_frame, grid_canvas, bldMenu, \
+        selected_bld, WIDTH, ROWS, grid, grid_canvas, bldMenu, \
         wallsScale, algMenu, speedScale, selected_spot_type, staffNamesText, txtBox, storedStaffNames, dir
     
     # initialize main window
@@ -22,7 +22,6 @@ def init():
     ROWS = 25
     grid = []
     # Store variables as attributes
-    left_frame = None
     grid_canvas = None
     bldMenu = None
     wallsScale = None

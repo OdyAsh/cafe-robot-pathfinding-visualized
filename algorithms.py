@@ -261,6 +261,3 @@ class Algorithms:
         for row in globals.grid:
             for spot in row:
                 spot.enable()
-        
-        for child in globals.left_frame.winfo_children():
-            child.configure(state='normal') # enable frame

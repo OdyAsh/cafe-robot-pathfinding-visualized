@@ -11,8 +11,8 @@ class Gui:
 
     def ui():
         # left_frame == Left column of application that contains buttons for the preset type, chosen algorithm, and instructions
-        globals.left_frame = Frame(globals.root, width=600, height=200, bg='black')
-        globals.left_frame.grid(row=0, column=0, padx=10, pady=5)
+        left_frame = Frame(globals.root, width=600, height=200, bg='black')
+        left_frame.grid(row=0, column=0, padx=10, pady=5)
             
         # create grid_canvas, "grid_canvas" == Middle area of application that contains the "preset"
         globals.grid_canvas = Canvas(globals.root, width=globals.WIDTH, height=globals.WIDTH, bg='orange')
@@ -29,35 +29,35 @@ class Gui:
                     listOfPresets.append(filename.split('.pickle')[0])
         
         # UI elements for left_frame
-        globals.bldMenu = ttk.Combobox(globals.left_frame, textvariable=globals.selected_bld, 
+        globals.bldMenu = ttk.Combobox(left_frame, textvariable=globals.selected_bld, 
                             values=listOfPresets, font = globals.font)
         globals.bldMenu.grid(row=0, column=0, padx=5, pady=(10, 5))
         globals.bldMenu.current(0)
         globals.bldMenu.bind("<<ComboboxSelected>>", Presets.scale_action)
 
-        globals.wallsScale = Scale(globals.left_frame, from_=10, to=40, resolution=5, orient=HORIZONTAL, 
+        globals.wallsScale = Scale(left_frame, from_=10, to=40, resolution=5, orient=HORIZONTAL, 
                         label='Obstacles density', font = globals.font, length=180)
         globals.wallsScale.grid(row=1, column=0, padx=5, pady=5, sticky=W)
 
-        Button(globals.left_frame, text='Save preset', command=Presets.save_preset, font = ("Helvetica", 10),
+        Button(left_frame, text='Save preset', command=Presets.save_preset, font = ("Helvetica", 10),
             bg='white').grid(row=2, column=0, padx=5, pady=(10, 20))
-        Button(globals.left_frame, text='Build preset', command=partial(Presets.build_preset, globals.grid), font = ("Helvetica", 14),
+        Button(left_frame, text='Build preset', command=partial(Presets.build_preset, globals.grid), font = ("Helvetica", 14),
             bg='pale green').grid(row=3, column=0, padx=5, pady=(10, 20))
 
-        globals.algMenu = ttk.Combobox(globals.left_frame, textvariable=globals.selected_alg, 
+        globals.algMenu = ttk.Combobox(left_frame, textvariable=globals.selected_alg, 
                             values=['A-star Algorithm', 'Breadth-First Algorithm'], font = globals.font)
         globals.algMenu.grid(row=4, column=0, padx=5, pady=(20, 5), sticky=W)
         globals.algMenu.current(0)
-        globals.speedScale = Scale(globals.left_frame, from_=0.05, to=0.5, digits=2, resolution=0.05, 
+        globals.speedScale = Scale(left_frame, from_=0.05, to=0.5, digits=2, resolution=0.05, 
                         orient=HORIZONTAL, label='Speed', font = globals.font, length=180)
         globals.speedScale.grid(row=5, column=0, padx=5, pady=(5, 5), sticky=W)
-        Button(globals.left_frame, text='Start Search', command=Algorithms.threadifyStartAlgorithms, font = ("Helvetica", 14),
+        Button(left_frame, text='Start Search', command=Algorithms.threadifyStartAlgorithms, font = ("Helvetica", 14),
             bg='light salmon').grid(row=6, column=0, padx=5, pady=(10, 10))
 
-        Button(globals.left_frame, text='Reset', command=Presets.Reset, font = ("Helvetica", 14),
+        Button(left_frame, text='Reset', command=Presets.Reset, font = ("Helvetica", 14),
             bg='white').grid(row=7, column=0, padx=5, pady=(20, 30))
 
-        Button(globals.left_frame, text='Instructions', command=Gui.instructions, font = ("Helvetica", 9),
+        Button(left_frame, text='Instructions', command=Gui.instructions, font = ("Helvetica", 9),
             bg='white').grid(row=8, column=0, padx=5, pady=(10, 10))
 
         # right_frame: right column that has options to change spot type to robot, obstactle, door, n-th staff member, and allows for entry of staff members' names who ordered coffee
@@ -77,9 +77,13 @@ class Gui:
 
     def instructions():
         messagebox.showinfo("Instructions", "1. Create a preset by clicking on the grid or choose\n"
-                                            "    one of the functions from the drop-down menu\n"
+                                            "    one of the presets from the drop-down menu\n"
                                             "\n"
-                                            "    You can always edit generated presets!\n"
+                                            "2. Choose the object type from the right side of the menu,"
+                                            "\n"
+                                            "     then click on grid to place that object, then select"
+                                            "\n"
+                                            "     another option"
                                             "\n"
                                             "2. Choose one of two algorithms to find the shortest path\n"
                                             "     and visualize the search with desired speed of animation\n"
