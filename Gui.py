@@ -81,14 +81,14 @@ class Gui:
                                             "\n"
                                             "2. Choose the object type from the right side of the menu,"
                                             "\n"
-                                            "     then click on grid to place that object, then select"
+                                            "    then click on grid to place that object, then select"
                                             "\n"
-                                            "     another option"
+                                            "    another option"
+                                            "\n\n"
+                                            "3. Choose one of two algorithms to find the shortest path\n"
+                                            "    and visualize the search with desired speed of animation\n"
                                             "\n"
-                                            "2. Choose one of two algorithms to find the shortest path\n"
-                                            "     and visualize the search with desired speed of animation\n"
-                                            "\n"
-                                            "3. Reset the grid if necessary")
+                                            "4. Reset the grid if necessary")
 
     def make_grid(width, rows):
         grid = []
