@@ -3,7 +3,8 @@
 # Used tkinter
 # Python 3.10.5
 # Ashraf Haress 
-# 20/11/2022 (The code in the rest of the files was reviewed by the TAs on 27/11/2022)
+# Started on: 20/11/2022
+# Finished on: 5/12/2022 (Technically 12/10/2022 :])
 ########################################################################
 
 import globals

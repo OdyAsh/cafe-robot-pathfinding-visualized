@@ -186,7 +186,14 @@ class Algorithms:
                     break
                 globals.txtBox.insert(END, f"{key}. {random.choice(globals.storedStaffNames)}\n")
         else:
-            globals.txtBox.insert(END, '\n') # add a new line at the end, as the user probably didn't type "enter"
+            if globals.txtBox.get("end-1c linestart", "end-1c lineend")[0:2] == "->": # if true, then the txtbox already had "->" at the end, so delete that
+                globals.txtBox.delete("end-1c linestart", "end-1c lineend")
+                globals.grid[Spot.start_point[0]][Spot.start_point[1]].button['text'] = ""
+                globals.grid[Spot.start_point[0]][Spot.start_point[1]].make_start()
+            else:
+                globals.txtBox.insert(END, '\n') # add a new line at the end, as the user probably didn't type "enter"
+            
+
         globals.txtBox.insert(END, 'Return to initial position')
 
         
