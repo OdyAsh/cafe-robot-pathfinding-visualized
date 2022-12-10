@@ -101,7 +101,7 @@ class Algorithms:
                         count += 1
                         
                         # add neighbor in open_set for consideration
-                        open_set.put((neighbor.f, count, neighbor))
+                        open_set.put((neighbor.f, count, neighbor)) # that's why "count" is used; because if "f" is equal between spots, an error will raise saying that "<" is not supported between types "Spot" & "Spot"
                         open_set_hash.add(neighbor)
                         neighbor.make_open()
             

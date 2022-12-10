@@ -167,7 +167,6 @@ class Spot():
                 self.reset()
             r,g,b = globals.hextorgb(hexString)
             if g == 0 and b == 0: # then it is a shade of red, so it is an end point
-                print('entered')
                 removedId = -1
                 for id, rowCol in Spot.end_points.items():
                     if self.row == rowCol[0] and self.col == rowCol[1]:
@@ -189,7 +188,6 @@ class Spot():
                     Spot.end_points.pop(idToBeChanged)
                     Spot.staffId -= 1
             self.reset()
-            print(Spot.end_points)
             return
         if globals.isSpotType('Robot') and not Spot.start_point:   
             self.make_start()
