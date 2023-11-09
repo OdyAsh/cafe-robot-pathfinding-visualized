@@ -25,20 +25,30 @@ This file contains the `Presets` class, which is used to build and load presets 
 This file initializes global variables and functions used across the application.
 
 ## Phase 1
-Description of phase 1 can be found in [phase 1's project document]("./Project Scenario And Design/Phase 1/Ashraf 196280 - Café Robot (Assignment 1).pdf")
+Details of phase 1 can be found in [phase 1's project document](https://nbviewer.org/github/OdyAsh/cafe-robot-pathfinding-visualized/blob/main/Project%20Scenario%20And%20Design/Phase%201/Ashraf%20196280%20-%20Caf%C3%A9%20Robot%20%28Assignment%201%29.pdf)
 
-![Scenario 1](Project Scenario And Design/Phase 1/media assets/Scenario 1.gif)
-![Scenario 2](Project Scenario And Design/Phase 1/media assets/Scenario 2.gif)
+(Note: it is preferable to download the [.docx version](https://github.com/OdyAsh/cafe-robot-pathfinding-visualized/blob/main/Project%20Scenario%20And%20Design/Phase%201/Ashraf%20196280%20-%20Caf%C3%A9%20Robot%20(Assignment%201).docx) instead of viewing the pdf version, as the .docx version displays gifs properly.)
+
+Example scenario:
+
+![Scenario 1](./Project%20Scenario%20And%20Design/Phase%201/media%20assets/Scenario%201.gif)
+
+Example of representing the environment (staff room) as a 2D grid:
+
+![Grid representation](./Project%20Scenario%20And%20Design/Phase%201/media%20assets/gridRep.gif)
 
 ## Phase 2
-Description of phase 1 can be found in [phase 2's project document]("./Project Scenario And Design/Phase 2/Ashraf 196280 - Café Robot (Assignment 2).pdf")
+Details of phase 2 can be found in [phase 2's project document](https://nbviewer.org/github/OdyAsh/cafe-robot-pathfinding-visualized/blob/main/Project%20Scenario%20And%20Design/Phase%202/Ashraf%20196280%20-%20Caf%C3%A9%20Robot%20%28Assignment%202%29.pdf)
 
-![Crooked smiley face](Project Scenario And Design/Phase 2/media assets/Crooked smiley face (with random name).gif)
-![Random walls with random staff names](Project Scenario And Design/Phase 2/media assets/Random walls with random staff names.gif)
-![Staff floor scenario](Project Scenario And Design/Phase 2/media assets/staff floor scenario (faster).gif)
+(Note: it is preferable to download the [.docx version](https://github.com/OdyAsh/cafe-robot-pathfinding-visualized/blob/main/Project%20Scenario%20And%20Design/Phase%202/Ashraf%20196280%20-%20Caf%C3%A9%20Robot%20(Assignment%202).docx) instead of viewing the pdf version, as the .docx version displays gifs properly.)
 
-## Authors
-- Your Name
+Examples of the application running on different environments:
+
+![Crooked smiley face](./Project%20Scenario%20And%20Design/Phase%202/media%20assets/Crooked%20smiley%20face%20(with%20random%20name).gif)
+
+![Random walls with random staff names](./Project%20Scenario%20And%20Design/Phase%202/media%20assets/Random%20walls%20with%20random%20staff%20names.gif)
+
+![Staff floor scenario](./Project%20Scenario%20And%20Design/Phase%202/media%20assets/staff%20floor%20scenario%20(faster).gif)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
